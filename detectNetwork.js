@@ -10,13 +10,14 @@
 var detectNetwork = function(cardNumber) {
   // Note: `cardNumber` will always be a string
   var twoBit = cardNumber.slice(0, 2);
-  if (cardNumber.length === 14 && (twoBit === '38' || twoBit === '39')) {
-    return 'Diner\'s Club'; 
-  } else if (cardNumber.length === 15 && (twoBit === '34' || twoBit === '37')) {
+  var cardLength = cardNumber.length;
+  if (cardLength === 14 && (['38', '39'].includes(twoBit))) {
+    return "Diner's Club";
+  } else if (cardLength === 15 && (twoBit === '34' || twoBit === '37')) {
     return 'American Express';
+  } else if ([13, 16, 19].includes(cardLength) && twoBit.charAt(0) === '4') {
+    return 'Visa';
+  } else if (cardLength === 16 && ['51', '52', '53', '54', '55'].includes(twoBit)) {
+    return 'Mastercard';
   }
-  // The Diner's Club network always starts with a 38 or 39 and is 14 digits long
-  // The American Express network always starts with a 34 or 37 and is 15 digits long
-
-  // Once you've read this, go ahead and try to implement this function, then return to the console.
 };
