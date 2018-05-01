@@ -23,7 +23,7 @@ var detectNetwork = function(cardNumber) {
     return 'MasterCard';
   } else if ([16, 19].includes(cardLength) && (fourBit === '6011' || ['644', '645', '646', '647', '648', '649'].includes(threeBit) || twoBit === '65')) {
     return 'Discover';
-  } else if (cardLength >= 12 && cardLength <= 19 && ['5018', '5020', '5038', '6304'].includes(fourBit)) {
+  } else if (cardLength > 11 && cardLength < 20 && ['5018', '5020', '5038', '6304'].includes(fourBit)) {
     return 'Maestro';
   } else {
     return 'Could not identify network.';

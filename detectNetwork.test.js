@@ -104,18 +104,18 @@ describe('MasterCard', function() {
   // Expect syntax is one way to do this, but there are others.
   // If you want to know more, check out the documentation.
   //   http://chaijs.com/api/bdd/
-  var expect = chai.expect;
+  var expect = chai.should();
 
   it('has a prefix of 51 and a length of 16', function() {
-    expect(detectNetwork('5112345678901234')).to.equal('MasterCard');
+    detectNetwork('5112345678901234').should.equal('MasterCard');
   });
 
   it('has a prefix of 52 and a length of 16', function() {
-    expect(detectNetwork('5212345678901234')).to.equal('MasterCard');
+    detectNetwork('5212345678901234').should.equal('MasterCard');
   });
 
   it('has a prefix of 53 and a length of 16', function() {
-    expect(detectNetwork('5312345678901234')).to.equal('MasterCard');
+    detectNetwork('5312345678901234').should.equal('MasterCard');
   });
 
 
@@ -142,59 +142,69 @@ describe('Discover', function() {
   var should = chai.should();
   // Tests without a function will be marked as "pending" and not run
   // Implement these tests (and others) and make them pass!
-  for (var i = 644; i < 650; i++) {
-    it('has a prefix of ' + i + ' and a length of 16', function() {
-      detectNetwork(i.toString() + '4567890123456').should.equal('Discover');
-    })
-  }
-  for (var j = 644; j < 650; j++) {
-    it('has a prefix of ' + i + ' and a length of 19', function() {
-      detectNetwork(j.toString() + '4567890123456789').should.equal('Discover');
-    })
-  }
+
+  for (var prefix = 644; prefix <= 649; prefix++) {
+  (function(prefix) {
+    it('has a prefix of ' + prefix + ' and a length of 16', function() {
+      detectNetwork(prefix.toString() + '4567890123456').should.equal('Discover');
+    });
+    it('has a prefix of ' + prefix + ' and a length of 19', function() {
+      detectNetwork(prefix.toString() + '4567890123456789').should.equal('Discover');
+    });
+  })(prefix)
+ }
   it('has a prefix of 6011 and a length of 16', function() {
     detectNetwork('6011567890123456').should.equal('Discover');
   })
   it('has a prefix of 6011 and a length of 19', function() {
     detectNetwork('6011567890123456789').should.equal('Discover');
   })
+  it('has a prefix of 65 and a length of 16', function() {
+    detectNetwork('6534567890123456').should.equal('Discover');
+  })
+  it('has a prefix of 65 and a length of 19', function() {
+    detectNetwork('6534567890123456789').should.equal('Discover');
+  })
 });
 
 describe('Maestro', function() {
-  for (var i = 12; i < 20; i++) {
-    var str;
+  var should = chai.should();
+  for (var length = 12; length < 20; length++) {
+    (function(length) {
+      var str = '';
+      it('has a prefix of 5018 and a length of ' + length, function() {
+        str = '5018';
+        for (var j = 5; j <= length; j++) {
+          str = str + '0';
+        }
+        detectNetwork(str).should.equal('Maestro');
+      })
 
-    it('has a prefix of 5018 and a length of ' + i, function() {
-      str = '5018';
-      for (var j = 4; j < i; j++) {
-        str = str + '0';
-      }
-      detectNetwork(str).should.equal('Maestro');
-    })
+      it('has a prefix of 5020 and a length of ' + length, function() {
+        str = '5020';
+        for (var j = 5; j <= length; j++) {
+          str = str + '0';
+        }
+        detectNetwork(str).should.equal('Maestro');
+      })
 
-    it('has a prefix of 5020 and a length of ' + i, function() {
-      str = '5020';
-      for (var j = 4; j < i; j++) {
-        str = str + '0';
-      }
-      detectNetwork(str).should.equal('Maestro');
-    })
+      it('has a prefix of 5038 and a length of ' + length, function() {
+        str = '5038';
+        for (var j = 5; j <= length; j++) {
+          str = str + '0';
+        }
+        detectNetwork(str).should.equal('Maestro');
+      })
 
-    it('has a prefix of 5038 and a length of ' + i, function() {
-      str = '5038';
-      for (var j = 4; j < i; j++) {
-        str = str + '0';
-      }
-      detectNetwork(str).should.equal('Maestro');
-    })
+      it('has a prefix of 6304 and a length of ' + length, function() {
+        str = '6304';
+        for (var j = 5; j <= length; j++) {
+          str = str + '0';
+        }
+        detectNetwork(str).should.equal('Maestro');
+      })
 
-    it('has a prefix of 6304 and a length of ' + i, function() {
-      str = '6304';
-      for (var j = 4; j < i; j++) {
-        str = str + '0';
-      }
-      detectNetwork(str).should.equal('Maestro');
-    })
+    })(length)
 
   }
 });
