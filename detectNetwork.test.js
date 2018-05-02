@@ -203,11 +203,124 @@ describe('Maestro', function() {
         }
         detectNetwork(str).should.equal('Maestro');
       })
-
     })(length)
-
   }
 });
 
-describe('China UnionPay') {}
-describe('Switch')
+//China UnionPay always has a prefix of 622126-622925, 624-626, or 6282-6288 and a length of 16-19.
+
+describe('China UnionPay', function() {
+  var should = chai.should();
+
+  //three number prefix chunk
+  for (var prefix = 624; prefix < 627; prefix++) {
+    (function(prefix) {
+      //length 16
+      it('has a prefix of ' + prefix + ' and a length of 16', function() {
+        detectNetwork(prefix.toString() + '4567890123456').should.equal('China UnionPay');
+      });
+      //length 17
+      it('has a prefix of ' + prefix + ' and a length of 17', function() {
+        detectNetwork(prefix.toString() + '45678901234567').should.equal('China UnionPay');
+      });
+      //length 18
+      it('has a prefix of ' + prefix + ' and a length of 18', function() {
+        detectNetwork(prefix.toString() + '456789012345678').should.equal('China UnionPay');
+      });
+      //length 19
+      it('has a prefix of ' + prefix + ' and a length of 19', function() {
+        detectNetwork(prefix.toString() + '4567890123456789').should.equal('China UnionPay');
+      });
+    })(prefix)
+  }
+
+  //four number prefix chunk
+  for (var prefix = 6282; prefix < 6289; prefix++) {
+    (function(prefix) {
+      //length 16
+      it('has a prefix of ' + prefix + ' and a length of 16', function() {
+        detectNetwork(prefix.toString() + '567890123456').should.equal('China UnionPay');
+      });
+      //length 17
+      it('has a prefix of ' + prefix + ' and a length of 17', function() {
+        detectNetwork(prefix.toString() + '5678901234567').should.equal('China UnionPay');
+      });
+      //length 18
+      it('has a prefix of ' + prefix + ' and a length of 18', function() {
+        detectNetwork(prefix.toString() + '56789012345678').should.equal('China UnionPay');
+      });
+      //length 19
+      it('has a prefix of ' + prefix + ' and a length of 19', function() {
+        detectNetwork(prefix.toString() + '567890123456789').should.equal('China UnionPay');
+      });
+    })(prefix)
+  }
+
+  //six number prefix chunk
+  for (var prefix = 622126; prefix < 622926; prefix++) {
+    (function(prefix) {
+      //length 16
+      it('has a prefix of ' + prefix + ' and a length of 16', function() {
+        detectNetwork(prefix.toString() + '7890123456').should.equal('China UnionPay');
+      });
+      //length 17
+      it('has a prefix of ' + prefix + ' and a length of 17', function() {
+        detectNetwork(prefix.toString() + '78901234567').should.equal('China UnionPay');
+      });
+      //length 18
+      it('has a prefix of ' + prefix + ' and a length of 18', function() {
+        detectNetwork(prefix.toString() + '789012345678').should.equal('China UnionPay');
+      });
+      //length 19
+      it('has a prefix of ' + prefix + ' and a length of 19', function() {
+        detectNetwork(prefix.toString() + '7890123456789').should.equal('China UnionPay');
+      });
+    })(prefix)
+  }
+});
+
+//Switch always has a prefix of 4903, 4905, 4911, 4936, 564182, 633110, 6333, or 6759 and a length of 16, 18, or 19.
+
+describe('Switch', function() {
+  var should = chai.should();
+
+  var fourBits = ['4903', '4905', '4911', '4936', '6333', '6759'];
+  var sixBits = ['564182', '633110'];
+
+  for (var i = 0; i < fourBits.length; i++) {
+    var prefix = fourBits[i];
+     (function(prefix) {
+      //length 16
+      it('has a prefix of ' + prefix + ' and a length of 16', function() {
+        detectNetwork(prefix + '567890123456').should.equal('Switch');
+      });
+      //length 18
+      it('has a prefix of ' + prefix + ' and a length of 18', function() {
+        detectNetwork(prefix + '56789012345678').should.equal('Switch');
+      });
+      //length 19
+      it('has a prefix of ' + prefix + ' and a length of 19', function() {
+        detectNetwork(prefix + '567890123456789').should.equal('Switch');
+      });
+  })(prefix);
+}
+
+  for (var j = 0; j < sixBits.length; j++) {
+     var prefix = sixBits[j];
+     (function(prefix) {
+      //length 16
+      it('has a prefix of ' + prefix + ' and a length of 16', function() {
+        detectNetwork(prefix + '7890123456').should.equal('Switch');
+      });
+      //length 18
+      it('has a prefix of ' + prefix + ' and a length of 18', function() {
+        detectNetwork(prefix + '789012345678').should.equal('Switch');
+      });
+      //length 19
+      it('has a prefix of ' + prefix + ' and a length of 19', function() {
+        detectNetwork(prefix + '7890123456789').should.equal('Switch');
+      });
+  })(prefix);
+}
+
+});
